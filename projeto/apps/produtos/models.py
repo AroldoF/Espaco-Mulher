@@ -21,7 +21,7 @@ class Produto(models.Model):
     def __str__(self):
         return self.nome
 
-class ReservaProdutos():
+class ReservaProdutos(models.Model):
     user = models.ForeignKey(User)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     # data_reservada = models.ForeignKey(Produto, on_delete=models.CASCADE)
