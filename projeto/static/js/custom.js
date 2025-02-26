@@ -33,7 +33,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.produto.nome,  // Ajuste conforme os campos da sua API
                         start: reserva.data_reservada,  // Exemplo: '2025-02-25T14:00:00'
-                        color: '#3788d8'  // Se tiver uma cor definida na API
+                        display:'#background',
+                        backgroundColor: '#20b2aa' ,
+                        color: reserva.disponivel ? '#008000' : '#b81414',
+                        extendedProps: { 
+                            tipo: 'produto', 
+                            quantidade_comprada: reserva.quantidade_comprada,  // Armazenando a quantidade
+                            user: reserva.user.username // Armazenando o usuário
+                        } // Adicionando um tipo para diferenciar
                     });
                 });
 
@@ -42,7 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.servico.nome,  // Ajuste conforme os campos da sua API
                         start: reserva.data_reservada,  // Exemplo: '2025-02-25T14:00:00'
-                        color: '#f39c12'  // Cor diferente para serviços
+                        display:'#background',
+                        backgroundColor: '#f39c12' ,
+                        color: reserva.disponivel ? '#008000' : '#b81414',
+                        extendedProps: { 
+                            tipo: 'serviço',
+                            user: reserva.user.username
+                        } // Adicionando um tipo para diferenciar
                     });
                 });
 
@@ -53,6 +66,28 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Erro ao buscar reservas:', error);
                 failureCallback(error);
             });
+        },
+        // Modificar título apenas na visão de lista
+        eventDidMount: function(info) {
+            if (info.view.type.startsWith('list')) {  // Se estiver na visão de lista
+                let tipo = info.event.extendedProps.tipo;
+                let user = info.event.extendedProps.user; // puxar da api
+                let tituloOriginal = info.event.title;
+                let novoTitulo = '';
+
+            if (tipo === 'produto') {
+                let quantidade = info.event.extendedProps.quantidade_comprada; //puxar da api
+                novoTitulo = `Retirada do produto: '${tituloOriginal}' - Quantidade: ${quantidade} - user: ${user}`;
+            } else if (tipo === 'serviço') {
+                novoTitulo = `Serviço ${tituloOriginal} - user: ${user}`;
+            }
+
+            // Modificar o título apenas na lista
+            let tituloElemento = info.el.querySelector('.fc-list-event-title');
+            if (tituloElemento) {
+                tituloElemento.innerText = novoTitulo;
+            }
+            }
         }
     });
 

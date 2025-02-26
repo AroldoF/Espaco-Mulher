@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.produto.nome,  // Ajuste conforme os campos da sua API
                         start: reserva.data_reservada,  // Exemplo: '2025-02-25T14:00:00'
-                        color: '#3788d8'  // Se tiver uma cor definida na API
+                        display:'#background',
+                        backgroundColor: '#f39c12' ,
+                        color: '#3788d8',  // Se tiver uma cor definida na API
                     });
                 });
 
@@ -42,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.servico.nome,  // Ajuste conforme os campos da sua API
                         start: reserva.data_reservada,  // Exemplo: '2025-02-25T14:00:00'
-                        color: '#f39c12'  // Cor diferente para serviços
+                        display:'#background',
+                        backgroundColor: '#f39c12' ,
+                        color: '#f39c12',  // Cor diferente para serviços
                     });
                 });
 
