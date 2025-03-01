@@ -25,10 +25,12 @@ body{
 /* Estiliza o contêiner do FullCalendar */
 #calendar {
     background-color: white; /* Fundo branco */
-    border-top: 4px solid pink; /* Borda rosa na parte de cima */
+    border-top: 4px solid #f9ac54; /* Borda rosa na parte de cima */
     padding: 20px; /* Espaçamento interno para melhor aparência */
     border-radius: 5px; /* Borda levemente arredondada */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
 }
-
+.fc-event:hover{
+    opacity: 0.9;
+}
 
