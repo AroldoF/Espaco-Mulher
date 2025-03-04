@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Mulher</title>
+    <link rel="stylesheet" href="{% static 'style/style.css'%}">
+</head>
+<body>
+    <nav>
+        <div class="nav__logo">
+            <a href="#"><img src="{% static 'assets/midia/logo.png' %}" alt="Logo"></a>
+        </div>
+    
+        {% include "partials/_alertas.html" %}
+    
+        <ul class="nav__links">
+            <li class="link"><a href="#">Produtos</a></li>
+            <li class="link"><a href="#">Serviços</a></li>
+            <li class="link"><a href="#">Horários</a></li>
+        </ul>
+    
+        {% if user.is_authenticated %}
+            <div class="user-menu">
+                <a href="#" class="user-info">
+                    {% comment %} <img src="{{ user.profile.foto.url }}" alt="Foto de {{ user.username }}"> {% endcomment %}
+                    <p style="color: white;">{{ user.username }}</p>
+                    <span class="arrow">&#9662;</span>
+                </a>
+                <ul class="dropdown">
+                    {% comment %} <li><a href="{% url 'editar_perfil' %}">Editar Informações</a></li> {% endcomment %}
+                    <li><a href="{% url 'reservas' %}">Minhas Reservas</a></li>
+                    <li><a href="{% url 'logout' %}">Sair</a></li>
+                </ul>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}"><button class="btn">Login</button></a>
+        {% endif %}
+    </nav>
+    
+
+    <section class="section_container explore_container">
+        <div class="explore__header">
+            <h2 class="section__header">Conheça nossos serviços e produtos</h2>
+            <div class="explore__nav">
+                <span><i class="ri-arrow-left-line"></i></span>
+                <span><i class="ri-arrow-right-line"></i></span>
+            </div>
+        </div>
+        
+        <div class="explore__grid">
+            <div class="explore__card">
+                <img src="{% static 'assets/midia/Kaiak-removebg-preview.png'%}" alt="">
+                <h4>Natura</h4>
+                <p>
+                    Perfume Natura kaiak neon
+                </p>
+                <P>
+                    R$:49,99
+                </P>
+                <a href="#"> Confira Ja <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="explore__card">
+                <span><i class="ri-scissors-line"></i></span>
+                <h4>Cortes</h4>
+                <p>
+                    No Espaço Mulher, cada corte é feito com carinho e estilo, realçando sua beleza. Do clássico ao moderno, nossa equipe transforma seu visual com profissionalismo. Venha se renovar!
+                </p>
+                <a href="#"> Confira Ja <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="explore__card">
+                <span><i class="ri-scissors-line"></i></span>
+                <h4>Cortes</h4>
+                <p>
+                    No Espaço Mulher, cada corte é feito com carinho e estilo, realçando sua beleza. Do clássico ao moderno, nossa equipe transforma seu visual com profissionalismo. Venha se renovar!
+                </p>
+                <a href="#"> Confira Ja <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="explore__card">
+                <span><i class="ri-scissors-line"></i></span>
+                <h4>Cortes</h4>
+                <p>
+                    No Espaço Mulher, cada corte é feito com carinho e estilo, realçando sua beleza. Do clássico ao moderno, nossa equipe transforma seu visual com profissionalismo. Venha se renovar!
+                </p>
+                <a href="#"> Confira Ja <i class="ri-arrow-right-line"></i></a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+

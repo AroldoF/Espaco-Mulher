@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/', include('setup.api.urls')),
     path('', include('apps.reservas.urls')),
     path('', include('apps.usuarios.urls')),
+    path('', include('apps.produtos.urls')),
 ]
