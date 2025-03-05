@@ -8,48 +8,19 @@
     <link rel="stylesheet" href="{% static 'style/style.css'%}">
 </head>
 <body>
-    <nav>
-        <div class="nav__logo">
-            <a href="#"><img src="{% static 'assets/midia/logo.png' %}" alt="Logo"></a>
-        </div>
-    
-        {% include "partials/_alertas.html" %}
-    
-        <ul class="nav__links">
-            <li class="link"><a href="#">Produtos</a></li>
-            <li class="link"><a href="#">Serviços</a></li>
-            <li class="link"><a href="#">Horários</a></li>
-        </ul>
-    
-        {% if user.is_authenticated %}
-            <div class="user-menu">
-                <a href="#" class="user-info">
-                    {% comment %} <img src="{{ user.profile.foto.url }}" alt="Foto de {{ user.username }}"> {% endcomment %}
-                    <p>{{ user.username }}</p>
-                    <span class="arrow">&#9662;</span>
-                </a>
-                <ul class="dropdown">
-                    {% comment %} <li><a href="{% url 'editar_perfil' %}">Editar Informações</a></li> {% endcomment %}
-                    <li><a href="{% url 'reservas' %}">Minhas Reservas</a></li>
-                    <li><a href="{% url 'logout' %}">Sair</a></li>
-                </ul>
-            </div>
-        {% else %}
-            <a href="{% url 'login' %}"><button class="btn">Login</button></a>
-        {% endif %}
-    </nav>
+    {% include "partials/_nav.html" %}
     <main class="main__reservas">
         <section class="reservas__section">
             {% if reservas_produto %}
             <h2>Reserva do produto</h2>
             <div class="info">
                 <p>Produto: {{produtos.nome}}</p>
-                <p>Preço: {{produtos.preco}}</p>
+                <p>Valor total: {{produtos.preco}}</p>
                 <p>Quantidade comprada: {{reservas_produto.quantidade_comprada}}</p>  
-                <p>Data: {{reservas_produto.data_reservada}}</p>  
+                <p>Data da busca: {{reservas_produto.data_reservada}}</p>  
                 <p>Status da sua reserva: {{reservas_produto.disponivel}}</p>
-                <button>Editar reserva</button>
-                <button>Deletar reserva</button>
+                <a href="{% url 'editar-reservas-produto' produtos.id %}"><button>Editar reserva</button></a>
+                <a href="{% url 'deletar-reserva-produto' produtos.id %}"><button>Deletar reserva</button></a>
             </div>
             <img src="" alt="">
             {% endif %}
@@ -58,12 +29,12 @@
             <h2>Reserva do serviço</h2>
             <div class="info">
                 <p>Serviço: {{servicos.nome}}</p>
-                <p>Preço: {{servicos.preco}}</p>
+                <p>Valor total: {{servicos.preco}}</p>
                 <p>Tempo de duração: {{servicos.tempo_duracao}}</p>  
-                <p>Data: {{reservas_servico.data_reservada}}</p>  
+                <p>Data da busca: {{reservas_servico.data_reservada}}</p>  
                 <p>Status da sua reserva: {{reservas_servico.disponivel}}</p>
-                <button>Editar reserva</button>
-                <button>Deletar reserva</button>
+                <a href="{% url 'editar-reservas-servico' servicos.id %}"><button>Editar reserva</button></a>
+                <a href="{% url 'deletar-reserva-servico' servicos.id %}"><button>Deletar reserva</button></a>
             </div>
             <img src="" alt="">
             {% endif %}

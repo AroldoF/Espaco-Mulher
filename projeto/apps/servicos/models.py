@@ -12,7 +12,7 @@ class Servico(models.Model):
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     tempo_duracao = models.TimeField()
     #categoria = models.CharField(max_length=100, choices=OPCOES_CATEGORIA, default='ELETRÔNICOS')
-    foto = models.ImageField(null=True,blank=True)
+    foto = models.ImageField(upload_to='servicos/',null=True,blank=True)
 
     def __str__(self):
         return self.nome

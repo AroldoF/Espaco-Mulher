@@ -1,39 +1,3 @@
-body{
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-}
-.main_calendario{
-    margin: 40px 10px;
-    padding: 0;
-}
-#calendar{
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.fc-col-header-cell {
-    background-color: white; 
-    color: black; 
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 14px;
-    padding: 10px;
-}
-
-/* Estiliza o contêiner do FullCalendar */
-#calendar {
-    background-color: white; /* Fundo branco */
-    border-top: 4px solid #f9ac54; /* Borda rosa na parte de cima */
-    padding: 20px; /* Espaçamento interno para melhor aparência */
-    border-radius: 5px; /* Borda levemente arredondada */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
-}
-.fc-event:hover{
-    opacity: 0.9;
-}
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
 
 :root{
@@ -51,6 +15,14 @@ body{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: white;
 }
 
 .section__container{
@@ -259,7 +231,7 @@ nav{
 .explore__grid{
     margin-top: 4rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
@@ -438,7 +410,265 @@ nav{
     }
 
     .footer__bar{
-        text-align: center;
+        text-align: center;
+    }
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+.image img {
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.content {
+    max-width: 500px;
+}
+
+.title {
+    font-size: 28px;
+    color: var(--white);
+    font-family: cursive;
+    margin-bottom: 10px;
+}
+
+.services {
+    color: var(--text-light);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.services span {
+    margin-right: 10px;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: 2px solid var(--secondary-color);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: var(--secondary-color-dark);
+    color: white;
+}
+
+.card-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.info__img{
+    width: 10%;
+    display: block;
+}
+.img-display{
+    overflow: hidden;
+}
+.img-showcase{
+    display: flex;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+.img-showcase img{
+    min-width: 100%;
+}
+.img-select{
+    display: flex;
+}
+.img-item{
+    margin: 0.3rem;
+}
+.img-item:nth-child(1),
+.img-item:nth-child(2),
+.img-item:nth-child(3){
+    margin-right: 0;
+}
+.img-item:hover{
+    opacity: 0.8;
+}
+.product-content{
+    padding: 2rem 1rem;
+}
+.product-title{
+    font-size: 3rem;
+    text-transform: capitalize;
+    font-weight: 700;
+    position: relative;
+    color: var(--white);
+    margin: 1rem 0;
+}
+.product-title::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 80px;
+    background: var(--secondary-color);
+}
+.product-link{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+    background: var(--primary-color-extra-light);
+    color: var(--text-light);
+    padding: 0 0.3rem;
+    transition: all 0.5s ease;
+}
+.product-link:hover{
+    opacity: 0.9;
+}
+.product-rating{
+    color: #ffc107;
+}
+.product-rating span{
+    font-weight: 600;
+    color: var(--white);
+}
+.product-price{
+    margin: 1rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.product-price p{
+    color: var(--white);
+}
+.product-price span{
+    font-weight: 400;
+}
+.last-price span{
+    color: red;
+    text-decoration: line-through;
+}
+.new-price span{
+    color: var(--secondary-color);
+}
+.product-detail h2{
+    text-transform: capitalize;
+    color: var(--white);
+    padding-bottom: 0.6rem;
+}
+.product-detail p{
+    font-size: 0.9rem;
+    padding: 0.3rem;
+    opacity: 0.8;
+    color: var(--text-light);
+}
+.product-detail ul{
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+.product-detail ul li{
+    margin: 0;
+    color: var(--white);
+    list-style: none;
+    background: url(shoes_images/checked.png) left center no-repeat;
+    background-size: 18px;
+    padding-left: 1.7rem;
+    margin: 0.4rem 0;
+    font-weight: 600;
+    opacity: 0.9;
+}
+.product-detail ul li span{
+    font-weight: 400;
+    color: var(--secondary-color);
+}
+.purchase-info{
+    margin: 1.5rem 0;
+}
+.purchase-info input,
+.purchase-info .btn{
+    border: 1.5px solid #ddd;
+    border-radius: 25px;
+    text-align: center;
+    padding: 0.45rem 0.8rem;
+    outline: 0;
+    margin-right: 0.2rem;
+    margin-bottom: 1rem;
+}
+.purchase-info input{
+    width: 60px;
+}
+.purchase-info .btn{
+    cursor: pointer;
+    color: #fff;
+}
+.purchase-info .btn:first-of-type{
+    background: var(--secondary-color-dark);
+}
+.purchase-info .btn:last-of-type{
+    background: var(--secondary-color);
+}
+.purchase-info .btn:hover{
+    opacity: 0.9;
+}
+.social-links{
+    display: flex;
+    align-items: center;
+}
+.social-links a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    margin: 0 0.2rem;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 0.8rem;
+    transition: all 0.5s ease;
+}
+.social-links a:hover{
+    background: var(--secondary-color);
+    border-color: transparent;
+    color: #fff;
+}
+
+.social-links p{
+    color: var(--white);
+}
+
+@media screen and (min-width: 992px){
+    .card{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1.5rem;
+    }
+    .card-wrapper{
+        display: flex;
+        justify-content: center;
+        align-items: start;
+    }
+    .product-imgs{
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        margin-top: 32px;
+    }
+    .product-content{
+        padding-top: 0;
     }
 }
 
@@ -453,7 +683,7 @@ nav{
     max-width: 450px;
     height: 450px;
     border-radius: 20px;
-    margin: 80px auto;
+    margin: 40px auto;
 }
 .login__section h2{
     display: flex;
@@ -468,7 +698,8 @@ nav{
 }
 .login__main{
     margin: 0;
-    padding: 50px;
+    padding: 0 50px 50px 50px;
+
 }
 
 .login__form{
@@ -596,4 +827,25 @@ nav{
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 20px;
+}
+
+/* gerenciar */
+.reserva-card{
+    margin: 20px 0;
+    background-color: var(--primary-color-light);
+    padding: 20px;
+    border-radius: 20px;
+}
+.reserva-card p{
+    margin: 10px 0;
+}
+
+.main_calendario{
+    margin: 40px 10px;
+    padding: 0;
+}
+
+#calendar{
+    max-width: 1100px;
+    margin: 0 auto;
 }

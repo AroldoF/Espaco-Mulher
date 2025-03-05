@@ -1,0 +1,7 @@
+{% load static %}
+<nav style="display: flex; align-items: center;justify-content: center;">
+    <div class="nav__logo">
+        <a href="{%url 'index'%}"><img src="{% static 'assets/img/logo.png' %}" alt="Logo"></a>
+    </div>
+    {% include "partials/_alertas.html" %}
+</nav>

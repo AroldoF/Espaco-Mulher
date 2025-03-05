@@ -2,9 +2,15 @@ from django.shortcuts import render,redirect
 
 from apps.usuarios.forms import LoginForms,CadastroForms
 
+from apps.reservas.models import ReservaProduto,ReservaServico
+
 from django.contrib.auth.models import User
 
 from django.contrib import auth,messages
+
+from django.contrib.auth.decorators import login_required
+
+from django.http import JsonResponse
 
 def login(request):
     form = LoginForms()
@@ -63,3 +69,35 @@ def logout(request):
     auth.logout(request)
     messages.success(request, "Logout efetuado com sucesso!")
     return redirect('login')
+
+@login_required
+def gerenciar(request):
+    reservas_produtos = ReservaProduto.objects.filter(user=request.user, disponivel=False)
+    reservas_servicos = ReservaServico.objects.filter(user=request.user, disponivel=False)
+
+    return render(request, "usuarios/_gerenciar.html", {
+        "reservas_produtos": reservas_produtos,
+        "reservas_servicos": reservas_servicos,
+    })
+
+@login_required
+def atualizar_disponibilidade(request):
+    if request.method == "POST":
+        tipo = request.POST.get("tipo")
+        reserva_id = request.POST.get("id")
+
+        if tipo == "produto":
+            reserva = ReservaProduto.objects.filter(id=reserva_id).first()
+        elif tipo == "servico":
+            reserva = ReservaServico.objects.filter(id=reserva_id).first()
+        else:
+            return JsonResponse({"success": False, "message": "Tipo inválido"}, status=400)
+
+        if reserva:
+            reserva.disponivel = True
+            reserva.save()
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
+
+    return JsonResponse({"success": False, "message": "Método inválido"}, status=400)

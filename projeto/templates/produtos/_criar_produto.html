@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Espaço Mulher</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+  </head>
+  <body>
+    {% include "partials/_nav.html" %}
+    <main>
+      <section class="galeria" style="margin-left: 5em">
+        <form action="{% url 'novo-produto' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            {% for field in form.visible_fields %}
+              <div class="col-12 col-lg-12" style="margin-bottom: 10px;">
+                <label for="{{ fied.id_for_label }}" style="color:#D9D9D9; margin-bottom: 5px;">{{ field.label }}</label>
+                {{ field }}
+              </div>
+            {% endfor %}
+            <div>
+              <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Criar Produto</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

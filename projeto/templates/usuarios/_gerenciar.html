@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Espaço Mulher</title>
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll('.toggle-disponibilidade').forEach((checkbox) => {
+            checkbox.addEventListener('change', function () {
+              let reservaId = this.dataset.id
+              let tipo = this.dataset.tipo
+        
+              fetch("{% url 'atualizar_disponibilidade' %}", {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                  'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `id=${reservaId}&tipo=${tipo}`
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  if (data.success) {
+                    alert('Reserva atualizada com sucesso!')
+                  } else {
+                    alert('Erro ao atualizar: ' + data.message)
+                    this.checked = false
+                  }
+                })
+                .catch((error) => {
+                  console.error('Erro:', error)
+                  this.checked = false
+                })
+            })
+          })
+        })
+      </script>
+  </head>
+  <body>
+    {% include 'partials/_nav.html' %}
+    <main class="main__reservas">
+        <h2>Gerenciar Reservas</h2>
+      <section class="reservas__section">
+        {% for reserva in reservas_produtos %}
+          <div class="reserva-card">
+            <h3>{{ reserva.produto.nome }}</h3>
+            <p>Data: {{ reserva.data_reservada }}</p>
+            <p>Quantidade: {{ reserva.quantidade_comprada }}</p>
+            <input type="checkbox" class="toggle-disponibilidade" data-id="{{ reserva.id }}" data-tipo="produto" />
+            <label>Marcar como disponível</label>
+          </div>
+        {% endfor %}
+
+        {% for reserva in reservas_servicos %}
+          <div class="reserva-card">
+            <h3>{{ reserva.servico.nome }}</h3>
+            <p>Data: {{ reserva.data_reservada }}</p>
+            <input type="checkbox" class="toggle-disponibilidade" data-id="{{ reserva.id }}" data-tipo="servico" />
+            <label>Marcar como disponível</label>
+          </div>
+        {% endfor %}
+      </section>
+    </main>
+  </body>
+</html>
