@@ -1,23 +1,35 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style/style.css'%}">
     <title>Login</title>
 </head>
 <body>
-    <main>
-        <form action="" method="POST">
-            <div class="row">
-                <div class="col-12 col-lg-12" style="margin-bottom: 10px;">
-                    <label for="{{ fied.id_for_label }}" style="color:#D9D9D9; margin-bottom: 5px;"></label>
+    {% include "partials/_alertas.html" %}
+    <main class="login__main">
+        <section class="login__section">
+            <h2>Login</h2>
+            <form class="login__form" action="{% url 'login'%}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form.visible_fields %}
+                    <div class="field__login">
+                        <label for="{{ fied.id_for_label }}">{{field.label}}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div >
+                        <a href="{% url 'cadastro'%}">cadastre-se</a>
+                    </div>
+                    <div>
+                        <button class="btn btn-success col-12" type="submit">Logar</button>
+                    </div>
                 </div>
-                <div>
-                    <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Logar</button>
-                </div>
-            </div>
-        </form>
-    </section>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Mulher</title>
+    <link rel="stylesheet" href="{% static 'style/style.css'%}">
+</head>
+<body>
+    <nav>
+        <div class="nav__logo">
+            <a href="#"><img src="{% static 'assets/midia/logo.png' %}" alt="Logo"></a>
+        </div>
+    
+        {% include "partials/_alertas.html" %}
+    
+        <ul class="nav__links">
+            <li class="link"><a href="#">Produtos</a></li>
+            <li class="link"><a href="#">Serviços</a></li>
+            <li class="link"><a href="#">Horários</a></li>
+        </ul>
+    
+        {% if user.is_authenticated %}
+            <div class="user-menu">
+                <a href="#" class="user-info">
+                    {% comment %} <img src="{{ user.profile.foto.url }}" alt="Foto de {{ user.username }}"> {% endcomment %}
+                    <p>{{ user.username }}</p>
+                    <span class="arrow">&#9662;</span>
+                </a>
+                <ul class="dropdown">
+                    {% comment %} <li><a href="{% url 'editar_perfil' %}">Editar Informações</a></li> {% endcomment %}
+                    <li><a href="{% url 'reservas' %}">Minhas Reservas</a></li>
+                    <li><a href="{% url 'logout' %}">Sair</a></li>
+                </ul>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}"><button class="btn">Login</button></a>
+        {% endif %}
+    </nav>
+    <main class="main__reservas">
+        <section class="reservas__section">
+            <h2>Reserva de Produtos</h2>
+            {% if produtos %}
+            {% for reserva in produtos %}
+                <a href="{% url 'reservas-produto' reserva.id %}">
+                    <div class="div__reserva">
+                        <p>Produto: {{ reserva.produto.nome}}</p>
+                        <p>Quantidade reservada: {{ reserva.quantidade_comprada}}</p>
+                        <p>status {{reserva.disponivel}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            {% endif %}
+        </section>
+        <section class="reservas__section">
+            <h2>Reserva de Serviços</h2>
+            {% if servicos %}
+                {% for reserva in servicos %}
+                <a href="{% url 'reservas-servico' reserva.id %}">
+                    <div class="div__reserva">
+                        <p>Serviço: {{ reserva.servico.nome}}</p>
+                        <p>tempo de duração: {{ reserva.servico.tempo_duracao}}</p>
+                        <p>status {{reserva.disponivel}}</p>
+                    </div>
+                </a>
+                {% endfor %}
+            {% endif %}
+        </section>
+    </main>

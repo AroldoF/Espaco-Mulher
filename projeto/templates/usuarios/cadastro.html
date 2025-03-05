@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{%static 'style/style.css'%}">
+    <title>Cadastro</title>
+  </head>
+  <body>
+    {% include "partials/_alertas.html" %}
+    <main class="login__main">
+      <section class="login__section" style="height: 600px;">
+        <h2>Cadastro</h2>
+        <form class="login__form" action="{% url 'cadastro' %}" method="POST">
+          {% csrf_token %}
+          <div class="row">
+            {% for field in form.visible_fields %}
+              <div class="field__login">
+                <label for="{{ fied.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+              </div>
+              {% for error in field.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            {% endfor %}
+            <div>
+                <a href="{% url 'login'%}">Logar</a>
+            </div>
+            <div>
+              <button class="btn btn-success col-12" type="submit">Cadastrar</button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
