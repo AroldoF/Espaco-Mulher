@@ -23,12 +23,7 @@
               })
                 .then((response) => response.json())
                 .then((data) => {
-                  if (data.success) {
-                    alert('Reserva atualizada com sucesso!')
-                  } else {
-                    alert('Erro ao atualizar: ' + data.message)
-                    this.checked = false
-                  }
+                  
                 })
                 .catch((error) => {
                   console.error('Erro:', error)
@@ -64,5 +59,6 @@
         {% endfor %}
       </section>
     </main>
+    {% include 'partials/_footer.html' %}
   </body>
 </html>

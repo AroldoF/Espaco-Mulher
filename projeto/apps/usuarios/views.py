@@ -12,6 +12,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.http import JsonResponse
 
+from apps.produtos.models import Produto
+
 def login(request):
     form = LoginForms()
 
@@ -72,13 +74,21 @@ def logout(request):
 
 @login_required
 def gerenciar(request):
-    reservas_produtos = ReservaProduto.objects.filter(user=request.user, disponivel=False)
-    reservas_servicos = ReservaServico.objects.filter(user=request.user, disponivel=False)
+    try:
+        reservas_produtos = ReservaProduto.objects.filter(disponivel=False)
+        reservas_servicos = ReservaServico.objects.filter(disponivel=False)
+        return render(request, "usuarios/_gerenciar.html", {
+            "reservas_produtos": reservas_produtos,
+            "reservas_servicos": reservas_servicos,
+        })
+    except Exception as e:
+        # Log the error (you can also use logging)
+        print(f"Erro ao carregar reservas: {e}")
+        return render(request, "usuarios/_gerenciar.html", {
+            "reservas_produtos": [],
+            "reservas_servicos": [],
+        })
 
-    return render(request, "usuarios/_gerenciar.html", {
-        "reservas_produtos": reservas_produtos,
-        "reservas_servicos": reservas_servicos,
-    })
 
 @login_required
 def atualizar_disponibilidade(request):
@@ -86,28 +96,60 @@ def atualizar_disponibilidade(request):
         tipo = request.POST.get("tipo")
         reserva_id = request.POST.get("id")
 
-        if tipo == "produto":
-            reserva = ReservaProduto.objects.filter(id=reserva_id).first()
-        elif tipo == "servico":
-            reserva = ReservaServico.objects.filter(id=reserva_id).first()
-        else:
-            return JsonResponse({"success": False, "message": "Tipo inválido"}, status=400)
+        if not reserva_id or not tipo:
+            return JsonResponse({"success": False}, status=400)
 
-        if reserva:
-            reserva.disponivel = True
-            reserva.save()
-            return JsonResponse({"success": True})
-        else:
-            return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
+        try:
+            reserva = None
+            if tipo == "produto":
+                # Verifica se a reserva pertence ao usuário
+                reserva = ReservaProduto.objects.filter(id=reserva_id, user=request.user).first()
 
-    return JsonResponse({"success": False, "message": "Método inválido"}, status=400)
+                if reserva:  # Verifica se a reserva foi encontrada
+                    produto = Produto.objects.filter(id=reserva.produto.id).first()
+                    
+                    if produto:  # Verifica se o produto foi encontrado
+                        produto.estoque += reserva.quantidade_comprada
+                        produto.save()  # Não se esqueça de salvar as alterações no estoque
+                    else:
+                        return JsonResponse({"success": False, "message": "Produto não encontrado"}, status=404)
+                else:
+                    return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
+            elif tipo == "servico":
+                # Verifica se o serviço pertence ao usuário
+                reserva = ReservaServico.objects.filter(id=reserva_id, user=request.user).first()
+            else:
+                return JsonResponse({"success": False}, status=400)
+
+            if reserva:
+                # Apenas altera a disponibilidade, não mexe no estoque
+                reserva.disponivel = True
+                
+                reserva.save()
+                return JsonResponse({"success": True})
+            else:
+                return JsonResponse({"success": False}, status=404)
+        except Exception as e:
+            # Log the error with more information
+            print(f"Erro ao atualizar disponibilidade: {e}")
+            return JsonResponse({"success": False, "message": str(e)}, status=500)
+
+    return JsonResponse({"success": False}, status=400)
+
 
 @login_required
 def gerenciar_produtos(request):
-    produtos = ReservaProduto.objects.filter(user=request.user, disponivel=False)
-    servicos = ReservaServico.objects.filter(user=request.user, disponivel=False)
-
-    return render(request, "usuarios/_gerenciar_produtos.html", {
-        "produtos": produtos,
-        "servicos": servicos,
-    })
+    try:
+        produtos = ReservaProduto.objects.filter(disponivel=False)
+        servicos = ReservaServico.objects.filter(disponivel=False)
+        return render(request, "usuarios/_gerenciar_produtos.html", {
+            "produtos": produtos,
+            "servicos": servicos,
+        })
+    except Exception as e:
+        # Log the error (you can also use logging)
+        print(f"Erro ao carregar produtos: {e}")
+        return render(request, "usuarios/_gerenciar_produtos.html", {
+            "produtos": [],
+            "servicos": [],
+        })

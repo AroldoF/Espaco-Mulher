@@ -10,7 +10,9 @@
   <body>
     {% include "partials/_nav.html" %}
     <main>
+
       <section class="galeria" style="margin-left: 5em">
+        <h2 style="text-align: center;">Criando Serviço</h2>
         <form action="{% url 'novo-servico' %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="row">
@@ -27,5 +29,6 @@
         </form>
       </section>
     </main>
+    {% include 'partials/_footer.html' %}
   </body>
 </html>

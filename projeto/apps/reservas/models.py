@@ -21,21 +21,25 @@ class ReservaProduto(models.Model):
             reserva_antiga = ReservaProduto.objects.get(pk=self.pk)
             diferenca = self.quantidade_comprada - reserva_antiga.quantidade_comprada
 
-            if diferenca > 0 and self.produto.estoque >= diferenca:
-                self.produto.estoque -= diferenca
-            elif diferenca < 0:
-                self.produto.estoque += abs(diferenca)
-            else:
-                raise ValueError("Estoque insuficiente para a alteração.")
+            if diferenca > 0:  # Se a quantidade aumentou
+                if self.produto.estoque >= diferenca:
+                    self.produto.estoque -= diferenca
+                else:
+                    raise ValueError("Estoque insuficiente para a alteração.")  # Caso o estoque não seja suficiente
+            elif diferenca < 0:  # Se a quantidade diminuiu
+                self.produto.estoque += abs(diferenca)  # Retorna o estoque para o produto
+            # Caso a quantidade não tenha mudado, não alteramos o estoque.
+
         else:  # Nova reserva
             if self.produto.estoque >= self.quantidade_comprada:
                 self.produto.estoque -= self.quantidade_comprada
             else:
-                raise ValueError("Estoque insuficiente para a reserva.")
+                raise ValueError("Estoque insuficiente para a reserva.")  # Caso o estoque não seja suficiente
 
         self.produto.save()
-        self.calc_valor()  # Garantir que o valor total seja calculado antes de salvar
+        self.calc_valor()  # Calcular valor total da reserva
         super().save(*args, **kwargs)  # Salvar normalmente
+
 
     def __str__(self):
         return f"Reserva de produto: {self.produto.nome} para {self.user.username}"

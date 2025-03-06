@@ -33,10 +33,13 @@
                 <p>Tempo de duração: {{servicos.tempo_duracao}}</p>  
                 <p>Data da busca: {{reservas_servico.data_reservada}}</p>  
                 <p>Status da sua reserva: {{reservas_servico.disponivel}}</p>
-                <a href="{% url 'editar-reservas-servico' reservas_servico.id %}"><button>Editar reserva</button></a>
-                <a href="{% url 'deletar-reserva-servico' reservas_servico.id %}"><button>Deletar reserva</button></a>
+                <a href="{% url 'editar-reservas-servico' reservas_servico.id %}"><button class="btn">Editar reserva</button></a>
+                <a href="{% url 'deletar-reserva-servico' reservas_servico.id %}"><button class="btn">Deletar reserva</button></a>
             </div>
 
             {% endif %}
         </section>
     </main>
+    {% include 'partials/_footer.html' %}
+</body>
+</html>

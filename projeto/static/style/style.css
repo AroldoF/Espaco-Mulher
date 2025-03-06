@@ -694,7 +694,23 @@ nav{
     color: var(--secondary-color);
 }
 .row{
-    width: 320px;
+    width: 520px;
+    margin: 30px auto;
+}
+.row label{
+    
+}
+.row input{
+    border-radius: 5px;
+    padding: 5px;
+}
+.col-12.col-lg-12{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.btn.btn-success.col-12{
+    width: 100%;
 }
 .login__main{
     margin: 0;
