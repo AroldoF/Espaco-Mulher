@@ -12,15 +12,34 @@ class ReservaProduto(models.Model):
     data_reservada = models.DateTimeField()
 
     def calc_valor(self):
-        # Calculando o valor total com base no preço do produto e quantidade comprada
+        """Calcula o valor total baseado no preço do produto e quantidade comprada"""
         self.valor_total = self.produto.preco * self.quantidade_comprada
 
     def save(self, *args, **kwargs):
-        self.calc_valor()  # Calcula o valor total antes de salvar
-        super().save(*args, **kwargs)  # Salva o objeto
+        """Garante a atualização do estoque ao criar ou editar uma reserva"""
+        if self.pk:  # Se a reserva já existe (edição)
+            reserva_antiga = ReservaProduto.objects.get(pk=self.pk)
+            diferenca = self.quantidade_comprada - reserva_antiga.quantidade_comprada
+
+            if diferenca > 0 and self.produto.estoque >= diferenca:
+                self.produto.estoque -= diferenca
+            elif diferenca < 0:
+                self.produto.estoque += abs(diferenca)
+            else:
+                raise ValueError("Estoque insuficiente para a alteração.")
+        else:  # Nova reserva
+            if self.produto.estoque >= self.quantidade_comprada:
+                self.produto.estoque -= self.quantidade_comprada
+            else:
+                raise ValueError("Estoque insuficiente para a reserva.")
+
+        self.produto.save()
+        self.calc_valor()  # Garantir que o valor total seja calculado antes de salvar
+        super().save(*args, **kwargs)  # Salvar normalmente
 
     def __str__(self):
         return f"Reserva de produto: {self.produto.nome} para {self.user.username}"
+
 
 class ReservaServico(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -30,12 +49,12 @@ class ReservaServico(models.Model):
     data_reservada = models.DateTimeField()
 
     def calc_valor(self):
-        # Calculando o valor total com base no preço do serviço (produto) associado
+        """Calcula o valor total com base no preço do serviço"""
         self.valor_total = self.servico.preco
 
     def save(self, *args, **kwargs):
-        self.calc_valor()  # Calcula o valor total antes de salvar
-        super().save(*args, **kwargs)  # Salva o objeto
+        self.calc_valor()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Reserva de serviço: {self.servico.nome} para {self.user.username}"

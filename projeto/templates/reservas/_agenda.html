@@ -14,13 +14,17 @@
   <body>
     {% include 'partials/_nav.html' %}
     <main class="main_calendario">
+        {% if user.is_staff %}
+        <div class="pdf-options">
+          <h3>Gerar Relatório de Reservas</h3>
+          <div>
+              <button onclick="baixarPDF('dia')">Baixar PDF do Dia</button>
+              <button onclick="baixarPDF('semana')">Baixar PDF da Semana</button>
+              <button onclick="baixarPDF('mes')">Baixar PDF do Mês</button>
+          </div>
+        </div>
+        {% endif %}
       <div id="calendar"></div>
-      <div class="pdf-options">
-        <h3>Gerar Relatório de Reservas</h3>
-        <button onclick="baixarPDF('dia')">Baixar PDF do Dia</button>
-        <button onclick="baixarPDF('semana')">Baixar PDF da Semana</button>
-        <button onclick="baixarPDF('mes')">Baixar PDF do Mês</button>
-      </div>
     </main>
   </body>
 </html>

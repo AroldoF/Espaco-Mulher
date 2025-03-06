@@ -55,23 +55,22 @@ def nova_reserva_produto(request, id):
         messages.success(request, "Usuário não logado!")
         return redirect('login')
     
-    #produto = get_object_or_404(Produto, id=id)
+    # produto = get_object_or_404(Produto, id=id)
     produto = Produto.objects.get(id=id)
-    empresa = produto.empresa
+    
     if request.method == 'POST':
-        form = VendaForm(request.POST, produto)  # Passa o produto para o formulário
+        form = ReservaProdutoForms(request.POST, produto)  # Passa o produto para o formulário
         if form.is_valid():
             venda = form.save(commit=False)  
             venda.produto = produto  # Garante que o produto será salvo com a venda
-            venda.venda_produto()
-            empresa.atualizar_faturamento(venda.valor_total)
+            venda.user = request.user  # Atribui o usuário logado à reserva
             venda.save()  
-            empresa.save()
-            messages.success(request, 'Nova Venda cadastrada!')
+            messages.success(request, 'Nova Reserva cadastrada!')
             return redirect('index')
 
-    form = VendaForm
-    return render(request, 'galeria/nova_venda.html', {'form': form, 'produto':produto})
+
+    form = ReservaProdutoForms
+    return render(request, 'reservas/_criar_reserva.html', {'form': form, 'produto':produto})
 
 def editar_reserva_produto(request,id):
     produto = ReservaProduto.objects.get(pk=id)
@@ -108,3 +107,24 @@ def deletar_reserva_servico(request, id):
     reserva.delete()
     messages.success(request, 'Deleção feita com sucesso!')
     return redirect('reservas')
+
+def nova_reserva_servico(request, id):
+    if not request.user.is_authenticated:
+        messages.success(request, "Usuário não logado!")
+        return redirect("login")
+    
+    servico = Servico.objects.get(id=id)  # Obtém o serviço pelo ID
+
+    if request.method == "POST":
+        form = ReservaServicoForms(request.POST, servico)  # Passa o serviço para o formulário
+        if form.is_valid():
+            reserva = form.save(commit=False)
+            reserva.servico = servico  # Garante que o serviço será associado à reserva
+            reserva.user = request.user  # Atribui o usuário logado à reserva
+            reserva.save()
+            messages.success(request, "Nova Reserva de Serviço cadastrada!")
+            return redirect("index")
+    else:
+        form = ReservaServicoForms
+    
+    return render(request, 'reservas/_criar_reserva.html', {"form": form, "servico": servico})

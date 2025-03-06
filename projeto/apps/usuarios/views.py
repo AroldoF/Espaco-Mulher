@@ -101,3 +101,13 @@ def atualizar_disponibilidade(request):
             return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
 
     return JsonResponse({"success": False, "message": "Método inválido"}, status=400)
+
+@login_required
+def gerenciar_produtos(request):
+    produtos = ReservaProduto.objects.filter(user=request.user, disponivel=False)
+    servicos = ReservaServico.objects.filter(user=request.user, disponivel=False)
+
+    return render(request, "usuarios/_gerenciar_produtos.html", {
+        "produtos": produtos,
+        "servicos": servicos,
+    })

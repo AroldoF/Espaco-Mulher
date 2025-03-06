@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espaço Mulher</title>
+    <link rel="stylesheet" href="{% static 'style/style.css'%}">
+</head>
+<body>
+    {% include "partials/_nav.html" %}
+    <main class="main__gerenciar_pedidos">
+        <h1>Bem-vindo ao Gerenciador de Produtos e Serviços</h1>
+
+        <section class="gerenciar_pedidos_section">
+            <h2>Produtos</h2>
+            <p>Crie e gerencie os produtos que você oferece em nossa plataforma. Clique abaixo para adicionar um novo produto.</p>
+            <a href="{% url 'novo-produto' %}">
+                <button class="btn-criar">Criar Produto</button>
+            </a>
+        </section>
+
+        <section class="gerenciar_pedidos_section">
+            <h2>Serviços</h2>
+            <p>Adicione novos serviços para oferecer aos seus clientes. Clique abaixo para criar um novo serviço.</p>
+            <a href="{% url 'novo-servico' %}">
+                <button class="btn-criar">Criar Serviço</button>
+            </a>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,116 +1,128 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'style/style.css'%}">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <title>Informações produtos</title>
-</head>
-<body>
-    {% include "partials/_nav.html" %}
+  </head>
+  <body>
+    {% include 'partials/_nav.html' %}
     <main>
-        <div class = "card-wrapper">
-            <div class = "card">
-              <!-- card left -->
-              <div class = "product-imgs">
-                <div class = "img-display">
-                  <div class = "img-showcase">
-                    <img src = "{{produtos.foto.url}}" alt = "shoe image">
-                  </div>
-                </div>
-              </div>
-              <!-- card right -->
-              <div class = "product-content">
-                <h2 class = "product-title">Homem Sagaz</h2>
-                <a href = "#" class = "product-link">Visite Espaço Mulher</a>
-                <div class = "product-rating">
-                  <i class = "fas fa-star"><i class="ri-star-fill"></i></i>
-                  <i class = "fas fa-star"><i class="ri-star-fill"></i></i>
-                  <i class = "fas fa-star"><i class="ri-star-fill"></i></i>
-                  <i class = "fas fa-star"><i class="ri-star-fill"></i></i>
-                  <i class = "fas fa-star-half-alt"><i class="ri-star-half-line"></i></i>
-                  <span>4.7(21)</span>
-                </div>
-      
-                <div class = "product-price">
-                  <p class = "last-price">Preço antigo: <span>{{produto.preco}}+(10%)</span></p>
-                  <p class = "new-price">Novo preço: <span>{{produto.preco}}</span></p>
-                </div>
-      
-                <div class = "product-detail">
-                  <h2>Sobre esse produto: </h2>
-                  <p>{{produto.descricao}}</p>
-                  <ul>
-                    <li>Marca: <span>Natura</span></li>
-                    <li>Estoque: <span>{{produto.estoque}}</span> unidades</li>
-                    {% comment %} <li>Categoria: <span>Perfume</span></li> {% endcomment %}
-                    <li>Área de atuação: <span>Por toda Alexandria RN</span></li>
-                    <li>Envio: <span>Gratis</span></li>
-                  </ul>
-                </div>
-      
-                <div class = "purchase-info">
-                  <button type = "button" class = "btn">
-                    Fazer Reserva  <i class = "fas fa-shopping-cart"><i class="ri-shopping-cart-line"></i></i>
-                  </button>
-                  
-                </div>
-      
-                <div class = "social-links">
-                  <p>Saiba mais: </p>
-                  <a href = "#">
-                    <i class = "fab fa-facebook-f"><i class="ri-facebook-line"></i></i>
-                  </a>
-                  <a href = "#">
-                    <i class = "fab fa-instagram"><i class="ri-instagram-line"></i></i>
-                  </a>
-                  <a href = "#">
-                    <i class = "fab fa-whatsapp"><i class="ri-whatsapp-line"></i></i>
-                  </a>
-                </div>
+      <div class="card-wrapper">
+        <div class="card">
+          <!-- card left -->
+          <div class="product-imgs">
+            <div class="img-display">
+              <div class="img-showcase">
+                {% if not produto.foto %}
+                  <img style="width: 520px; border-radius: 10px;" src="{% static 'assets/img/not-found.png' %}" alt="foto" />
+                {% else %}
+                  <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ produto.foto.url }}" alt="{{ produto.nome }}" />
+                {% endif %}
               </div>
             </div>
           </div>
+          <!-- card right -->
+          <div class="product-content">
+            <h2 class="product-title">{{ produtos.nome }}</h2>
+            <a href="#" class="product-link">Visite Espaço Mulher</a>
+            <div class="product-rating">
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star-half-alt"><i class="ri-star-half-line"></i></i>
+              <span>4.7(21)</span>
+            </div>
+
+            <div class="product-price">
+              <p class="last-price">
+                Preço antigo: <span>{{ produtos.preco }}</span>
+              </p>
+              <p class="new-price">
+                Novo preço: <span>{{ produtos.preco }}</span>
+              </p>
+            </div>
+
+            <div class="product-detail">
+              <h2>Sobre esse produto:</h2>
+              {% if produtos.descricao %}
+                <p>{{ produtos.descricao }}</p>
+              {% else %}
+                <p>Esse produto não tem descrição</p>
+              {% endif %}
+              <ul>
+                <li>
+                  Marca: <span>Natura</span>
+                </li>
+                <li>
+                  Estoque: <span>{{ produtos.estoque }}</span> unidades
+                </li>
+                {% comment %} <li>
+                  Categoria: <span>Perfume</span>
+                </li> {% endcomment %}
+                <li>
+                  Área de atuação: <span>Por toda Alexandria RN</span>
+                </li>
+                <li>
+                  Envio: <span>Gratis</span>
+                </li>
+              </ul>
+            </div>
+            {% if user.is_staff %}
+              <a class="purchase-info" href="{% url 'editar-produtos' produtos.id %}"><button type="button" class="btn">editar produto</button></a>
+              <a class="purchase-info" href="{% url 'deletar-produtos' produtos.id %}"><button type="button" class="btn">deletar produto</button></a>
+            {% else %}
+              <a class="purchase-info" href="{% url 'nova-reservas-produto' produtos.id %}"><button type="button" class="btn">Fazer Reserva <i class="fas fa-shopping-cart"><i class="ri-shopping-cart-line"></i></i></button></a>
+            {% endif %}
+            <div class="social-links">
+              <p>Saiba mais:</p>
+              <a href="#"><i class="fab fa-facebook-f"><i class="ri-facebook-line"></i></i></a>
+              <a href="#"><i class="fab fa-instagram"><i class="ri-instagram-line"></i></i></a>
+              <a href="#"><i class="fab fa-whatsapp"><i class="ri-whatsapp-line"></i></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="section__container footer__container">
-        <span class="bg__blur"></span>
-        <span class="bg__blur footer__blur"></span>
-        <div class="footer__col">
-            <div class="footer__logo"><img src="img/logo.png" alt="Logo"></div>
-            <p>
-                No Espaço Mulher, cada corte, cada detalhe e cada transformação são feitos para realçar sua beleza e autoestima. Sinta-se confiante, radiante e poderosa todos os dias, porque você merece! 
-            </p>
-            <div class="footer__socials">
-                <a href="#"><i class="ri-facebook-fill"></i></a>
-                <a href="#"><i class="ri-instagram-fill"></i></a>
-                <a href="#"><i class="ri-whatsapp-fill"></i></a>
-            </div>
+      <span class="bg__blur"></span>
+      <span class="bg__blur footer__blur"></span>
+      <div class="footer__col">
+        <div class="footer__logo">
+          <img src="img/logo.png" alt="Logo" />
         </div>
-        <div class="footer__col">
-            <h4>company</h4>
-            <a href="#">Negócios</a>
-            <a href="#">Franquia</a>
-            <a href="#">Parcerias</a>
-            <a href="#">Network</a>
+        <p>No Espaço Mulher, cada corte, cada detalhe e cada transformação são feitos para realçar sua beleza e autoestima. Sinta-se confiante, radiante e poderosa todos os dias, porque você merece!</p>
+        <div class="footer__socials">
+          <a href="#"><i class="ri-facebook-fill"></i></a>
+          <a href="#"><i class="ri-instagram-fill"></i></a>
+          <a href="#"><i class="ri-whatsapp-fill"></i></a>
         </div>
-        <div class="footer__col">
-            <h4>Sobre nos</h4>
-            <a href="#">Blogs</a>
-            <a href="#">segurança</a>
-            <a href="#">carreers</a>
-        </div>
-        <div class="footer__col">
-            <h4>Contato</h4>
-            <a href="#">contate nos</a>
-            <a href="#">Politica de privacidade</a>
-            <a href="#">Termos & condiçôes</a>
-        </div>
+      </div>
+      <div class="footer__col">
+        <h4>company</h4>
+        <a href="#">Negócios</a>
+        <a href="#">Franquia</a>
+        <a href="#">Parcerias</a>
+        <a href="#">Network</a>
+      </div>
+      <div class="footer__col">
+        <h4>Sobre nos</h4>
+        <a href="#">Blogs</a>
+        <a href="#">segurança</a>
+        <a href="#">carreers</a>
+      </div>
+      <div class="footer__col">
+        <h4>Contato</h4>
+        <a href="#">contate nos</a>
+        <a href="#">Politica de privacidade</a>
+        <a href="#">Termos & condiçôes</a>
+      </div>
     </footer>
-    <div class="footer__bar">
-        Direitos autorais © 2025 Espaço Mulher. Todos os direitos reservados.
-    </div>
-</body>
+    <div class="footer__bar">Direitos autorais © 2025 Espaço Mulher. Todos os direitos reservados.</div>
+  </body>
 </html>

@@ -134,7 +134,7 @@ nav{
 }
 
 .header__container::before{
-    content: "Camisa";
+    content: "";
     position: absolute;
     bottom: 5rem;
     right: 20rem;
@@ -770,6 +770,7 @@ nav{
     font-size: 14px;
 }
 
+/* Ajuste na exibição do dropdown */
 .dropdown {
     position: absolute;
     top: 100%;
@@ -777,12 +778,21 @@ nav{
     background: white;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    display: none;
     min-width: 150px;
     list-style: none;
     padding: 10px 0;
+    opacity: 0;  /* Esconde inicialmente */
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;  /* Para garantir que fique acima de outros elementos */
 }
-
+/* Mantém o dropdown visível ao passar o mouse */
+.user-menu:hover .dropdown,
+.dropdown:hover {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
 .dropdown li {
     padding: 8px 15px;
     text-align: left;
@@ -800,6 +810,7 @@ nav{
 
 .user-menu:hover .dropdown {
     display: block;
+    position: absolute;
 }
 
 /* reservas */
@@ -811,6 +822,7 @@ nav{
     width: 100%;
     gap: 100px;
 }
+
 .reservas__section h2{
     color: var(--white);
     font-size: 24px;
@@ -916,4 +928,60 @@ nav{
 #calendar{
     max-width: 1100px;
     margin: 0 auto;
+}
+.fc-list-day-cushion.fc-cell-shaded {
+    background-color: var(--secondary-color-dark) !important; /* Escolha a cor que deseja */
+    color: #333; /* Ajuste a cor do texto, se necessário */
+}
+
+/* .fc-event:hover{
+    background-color: #509342;
+} */
+/* Hover da lista de eventos */
+.fc-list-event:hover {
+
+    color: black; /* Cor do texto do evento no hover */
+}
+.pdf-options{
+    padding: 20px;
+    max-width: 500px;
+    background-color: var(--primary-color-extra-light);
+    border-radius: 20px;
+    margin: 30px auto;
+}
+.pdf-options button{
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+.pdf-options h3{
+    text-align: center;
+}
+.pdf-options div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__gerenciar_pedidos h1{
+    text-align: center;
+    color: var(--secondary-color);
+    margin-top: 30px;
+}
+
+.gerenciar_pedidos_section{
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.gerenciar_pedidos_section button{
+    padding: 10px;
+    border-radius: 10px;
+    width: 200px;
+    background-color: var(--secondary-color-dark);
+    font-weight: bold;
+    color: white;
 }

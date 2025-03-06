@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.produto.nome,
                         start: reserva.data_reservada,
-                        backgroundColor: '#20b2aa',
+                        eventBackgroundColor: '#20b2aa',
                         color: reserva.disponivel ? '#008000' : '#b81414',
                         extendedProps: { 
                             tipo: 'produto',
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos.push({
                         title: reserva.servico.nome,
                         start: reserva.data_reservada,
-                        backgroundColor: '#f39c12',
+                        eventBackgroundColor: '#f39c12',
                         color: reserva.disponivel ? '#008000' : '#b81414',
                         extendedProps: { 
                             tipo: 'serviço',
