@@ -9,11 +9,11 @@
 </head>
 <body>
     {% include "partials/_nav.html" %}
-    <main class="main__reservas">
-        <section class="reservas__section">
+    <main class="main__detalhes-reserva">
+        <section class="detalhes__section">
             {% if reservas_produto %}
             <h2>Reserva do produto</h2>
-            <div class="info">
+            <div class="detalhes__info">
                 <p>Produto: {{produtos.nome}}</p>
                 <p>Valor total: {{produtos.preco}}</p>
                 <p>Quantidade comprada: {{reservas_produto.quantidade_comprada}}</p>  
@@ -27,7 +27,7 @@
 
             {% if reservas_servico %}
             <h2>Reserva do serviço</h2>
-            <div class="info">
+            <div class="detalhes__info">
                 <p>Serviço: {{servicos.nome}}</p>
                 <p>Valor total: {{servicos.preco}}</p>
                 <p>Tempo de duração: {{servicos.tempo_duracao}}</p>  
