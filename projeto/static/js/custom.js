@@ -125,3 +125,5 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('[onclick="baixarPDF(\'semana\')"]').addEventListener('click', () => gerarPDF('semana'));
     document.querySelector('[onclick="baixarPDF(\'mes\')"]').addEventListener('click', () => gerarPDF('mes'));
 });
+
+

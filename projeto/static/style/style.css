@@ -834,33 +834,101 @@ nav{
     margin-top: 50px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     gap: 100px;
 }
 
 .reservas__section h2{
-    color: var(--secondary-color);
-    margin-bottom: 50px;
+    color: var(--white);
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }
 .div__reserva{
     background-color: var(--primary-color-light);
     color: #d1d5db;
-    margin-top: 20px;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px var(--primary-color-extra-light);
+    width: 100%;
+    max-width: 350px;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.div__reserva:hover{
+    transform: translate(-5px);
+    box-shadow: 0px 6px 12px var(--secondary-color-dark);
+}
+
 .info p{
-    color: var(--secondary-color);
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* Detalhes reserva */
+
+.main__detalhes-reserva{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+}
+
+.detalhes__section{
+    background-color: var(--primary-color-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px var(--secondary-color);
+    max-width: 500px;
+}
+
+.detalhes__section h2 {
+    color: var(--white);
+    font-size: 26px;
     font-weight: bold;
-    font-size: 20px;
     margin-bottom: 20px;
 }
+
+.detalhes__info p{
+    font-size: 18px;
+    margin: 18px 0;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.detalhes__info a{
+    text-decoration: none;
+}
+
+.detalhes__info button{
+    background-color: var(--secondary-color);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3 ease-in-out;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.detalhes__info button{
+    background-color: var(--secondary-color-dark);
+    transform: scale(1.05);
+}
+
 
 /* gerenciar */
 .reserva-card{
     margin: 20px 0;
-    background-color: var(--primary-color-light);
+    background-color: var(--secondary-color);
     padding: 20px;
     border-radius: 20px;
 }
