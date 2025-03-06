@@ -11,11 +11,13 @@
     {% include "partials/_nav.html" %}
     <main>
       <section class="galeria" style="margin-left: 5em">
-        {% if produtos %}
-        <form action="{% url 'editar-reservas-produto' produtos.id %}" method="POST" enctype="multipart/form-data">
-        {% endif %}
-        {% if servicos %}
-        <form action="{% url 'editar-reservas-servico' servicos.id %}" method="POST" enctype="multipart/form-data">
+        {% if produto %}
+        <h2>Produto: {{produto.nome}}</h2>
+        <form action="{% url 'nova-reservas-produto' produto.id %}" method="POST" enctype="multipart/form-data">
+        {% endif %} 
+        {% if servico %}
+        <h2>Serviço: {{servico.nome}}</h2>
+        <form action="{% url 'nova-reservas-servico' servico.id %}" method="POST" enctype="multipart/form-data">
         {% endif %}
           {% csrf_token %}
           <div class="row">
@@ -26,7 +28,7 @@
               </div>
             {% endfor %}
             <div>
-              <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Editar Produto</button>
+              <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Criar Reserva</button>
             </div>
           </div>
         </form>

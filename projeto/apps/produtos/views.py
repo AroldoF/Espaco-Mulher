@@ -20,7 +20,6 @@ def info_produto(request,id):
     produto = get_object_or_404(Produto, pk=id)
     return render(request, 'produtos/_informacao_produto.html', {"produtos": produto})
     
-
 def novo_produto(request):
     if not request.user.is_authenticated:
         messages.success(request, "Usuário não logado!")
@@ -38,3 +37,21 @@ def novo_produto(request):
 
     form = ProdutoForm
     return render(request, 'produtos/_criar_produto.html', {'form': form})
+
+def editar_produto(request,id):
+    produto = Produto.objects.get(pk=id)
+    form = ProdutoForm(instance=produto)
+
+    if request.method == 'POST':
+        form = ProdutoForm(request.POST, instance=produto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Produto editada com sucesso!')
+            return redirect('reservas')
+    return render(request, 'produtos/_editar_produto.html', {"form": form, 'produtos': produto})
+
+def deletar_produto(request, id):
+    produto = Produto.objects.get(id=id)
+    produto.delete()
+    messages.success(request, 'Deleção feita com sucesso!')
+    return redirect('produto')

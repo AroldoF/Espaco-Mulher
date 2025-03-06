@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style/style.css' %}" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <title>Informações serviços</title>
+  </head>
+  <body>
+    {% include 'partials/_nav.html' %}
+    <main>
+      <div class="card-wrapper">
+        <div class="card">
+          <!-- card left -->
+          <div class="product-imgs">
+            <div class="img-display">
+              {% if not servico.foto %}
+                <img style="width: 520px; border-radius: 10px;" src="{% static 'assets/img/not-found.png' %}" alt="foto" />
+              {% else %}
+                <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ servico.foto.url }}" alt="{{ servico.nome }}" />
+              {% endif %}
+              <div class="img-showcase"></div>
+            </div>
+          </div>
+          <!-- card right -->
+          <div class="product-content">
+            <h2 class="product-title">{{servicos.nome}}</h2>
+            <a href="#" class="product-link">Visite Espaço Mulher</a>
+            <div class="product-rating">
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star"><i class="ri-star-fill"></i></i>
+              <i class="fas fa-star-half-alt"><i class="ri-star-half-line"></i></i>
+              <span>4.7(21)</span>
+            </div>
+
+            <div class="product-price">
+                <p class="last-price">
+                    Preço antigo: <span> R${{ servicos.preco }}</span>
+                </p>
+                <p class="new-price">
+                    Novo preço: <span> R${{ servicos.preco }}</span>
+                </p>
+            </div>
+
+            <div class="product-detail">
+              <h2>Sobre esse serviço:</h2>
+              {% if servicos.descricao %}
+              <p>{{ servicos.descricao }}</p>
+              {% else %}
+              <p>Esse serviços não tem descrição</p>
+              {% endif %}
+              <ul>
+                <li>
+                  Tempo de duração: <span>{{ servicos.tempo_duracao }}</span> 
+                </li>
+                {% comment %} <li>
+                  Categoria: <span>Perfume</span>
+                </li> {% endcomment %}
+                <li>
+                  Área de atuação: <span>Por toda Alexandria RN</span>
+                </li>
+              </ul>
+            </div>
+
+            {% if user.is_staff %}
+              <a class="purchase-info" href="{% url 'editar-servico' servicos.id %}"><button type="button" class="btn">editar serviço</button></a>
+              <a class="purchase-info" href="{% url 'deletar-servico' servicos.id %}"><button type="button" class="btn">deletar serviço</button></a>
+            {% else %}
+              <a class="purchase-info" href="{% url 'nova-reservas-servico' servicos.id %}"><button type="button" class="btn">Fazer Reserva <i class="fas fa-shopping-cart"><i class="ri-shopping-cart-line"></i></i></button></a>
+            {% endif %}
+
+            <div class="social-links">
+              <p>Saiba mais:</p>
+              <a href="#"><i class="fab fa-facebook-f"><i class="ri-facebook-line"></i></i></a>
+              <a href="#"><i class="fab fa-instagram"><i class="ri-instagram-line"></i></i></a>
+              <a href="#"><i class="fab fa-whatsapp"><i class="ri-whatsapp-line"></i></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="section__container footer__container">
+      <span class="bg__blur"></span>
+      <span class="bg__blur footer__blur"></span>
+      <div class="footer__col">
+        <div class="footer__logo">
+          <img src="img/logo.png" alt="Logo" />
+        </div>
+        <p>No Espaço Mulher, cada corte, cada detalhe e cada transformação são feitos para realçar sua beleza e autoestima. Sinta-se confiante, radiante e poderosa todos os dias, porque você merece!</p>
+        <div class="footer__socials">
+          <a href="#"><i class="ri-facebook-fill"></i></a>
+          <a href="#"><i class="ri-instagram-fill"></i></a>
+          <a href="#"><i class="ri-whatsapp-fill"></i></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h4>company</h4>
+        <a href="#">Negócios</a>
+        <a href="#">Franquia</a>
+        <a href="#">Parcerias</a>
+        <a href="#">Network</a>
+      </div>
+      <div class="footer__col">
+        <h4>Sobre nos</h4>
+        <a href="#">Blogs</a>
+        <a href="#">segurança</a>
+        <a href="#">carreers</a>
+      </div>
+      <div class="footer__col">
+        <h4>Contato</h4>
+        <a href="#">contate nos</a>
+        <a href="#">Politica de privacidade</a>
+        <a href="#">Termos & condiçôes</a>
+      </div>
+    </footer>
+    <div class="footer__bar">Direitos autorais © 2025 Espaço Mulher. Todos os direitos reservados.</div>
+  </body>
+</html>

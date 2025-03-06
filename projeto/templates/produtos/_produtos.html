@@ -25,7 +25,11 @@
                 <img style="width: 350px; height: 350px; border-radius: 10px;" src="{{ produto.foto.url }}" alt="{{ produto.nome }}" />
               {% endif %}
               <h4 style="margin-top: 10px;">{{ produto.nome }}</h4>
+              {% if produto.descricao %}
               <p>{{ produto.descricao }}</p>
+              {% else %}
+              <p>Esse produto não tem descrição</p>
+              {% endif %}
               <P>{{ produto.preco }}</P>
               <a href="{% url 'info-produto' produto.id %}">Confira Ja <i class="ri-arrow-right-line"></i></a>
             </div>
