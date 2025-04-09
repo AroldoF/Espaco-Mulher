@@ -16,10 +16,10 @@
           <!-- card left -->
           <div class="product-imgs">
             <div class="img-display">
-              {% if not servico.foto %}
+              {% if not servicos.foto %}
                 <img style="width: 520px; border-radius: 10px;" src="{% static 'assets/img/not-found.png' %}" alt="foto" />
               {% else %}
-                <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ servico.foto.url }}" alt="{{ servico.nome }}" />
+                <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ servicos.foto.url }}" alt="{{ servico.nome }}" />
               {% endif %}
               <div class="img-showcase"></div>
             </div>

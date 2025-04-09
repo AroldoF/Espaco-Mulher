@@ -9,6 +9,7 @@ class ServicoForm(forms.ModelForm):
         labels = {
             'nome': 'Nome',
             'descricao': 'Descrição',
+            'preco': 'Preço',
             'tempo_duracao': 'Tempo de duração',
             'foto': 'Foto',
         }
@@ -17,6 +18,6 @@ class ServicoForm(forms.ModelForm):
             "nome": forms.TextInput(attrs={'class': 'form-control'}),
             "descricao": forms.Textarea(attrs={'class': 'form-control'}),
             "preco": forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-            "tempo_duracao": forms.NumberInput(attrs={'class': 'form-control'}),
+            "tempo_duracao": forms.TimeInput(attrs={'class': 'form-control', 'type': 'time',}),
             "foto": forms.FileInput(attrs={'class': 'form-control'}),
         }

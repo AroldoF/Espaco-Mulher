@@ -25,15 +25,12 @@ def novo_produto(request):
         messages.success(request, "Usuário não logado!")
         return redirect('login')
     
-    #produto = get_object_or_404(Produto, id=id)
-    
-    #empresa = produto.empresa
     if request.method == 'POST':
-        form = ProdutoForm(request.POST)  # Passa o produto para o formulário
+        form = ProdutoForm(request.POST, request.FILES)  # Passa o produto para o formulário
         if form.is_valid():
             form.save()  
-            messages.success(request, 'Nova Venda cadastrada!')
-            return redirect('index')
+            messages.success(request, 'Novo produto cadastrado!')
+            return redirect('produto')
 
     form = ProdutoForm
     return render(request, 'produtos/_criar_produto.html', {'form': form})
@@ -43,11 +40,11 @@ def editar_produto(request,id):
     form = ProdutoForm(instance=produto)
 
     if request.method == 'POST':
-        form = ProdutoForm(request.POST, instance=produto)
+        form = ProdutoForm(request.POST, request.FILES, instance=produto)
         if form.is_valid():
             form.save()
             messages.success(request, 'Produto editada com sucesso!')
-            return redirect('reservas')
+            return redirect('produto')
     return render(request, 'produtos/_editar_produto.html', {"form": form, 'produtos': produto})
 
 def deletar_produto(request, id):

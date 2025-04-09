@@ -93,46 +93,23 @@ def gerenciar(request):
 @login_required
 def atualizar_disponibilidade(request):
     if request.method == "POST":
-        tipo = request.POST.get("tipo")
         reserva_id = request.POST.get("id")
+        tipo = request.POST.get("tipo")
 
-        if not reserva_id or not tipo:
-            return JsonResponse({"success": False}, status=400)
+        if tipo == "produto":
+            reserva = ReservaProduto.objects.filter(id=reserva_id).first()
+        elif tipo == "servico":
+            reserva = ReservaServico.objects.filter(id=reserva_id).first()
+        else:
+            return JsonResponse({"success": False, "message": "Tipo inválido"}, status=400)
 
-        try:
-            reserva = None
-            if tipo == "produto":
-                # Verifica se a reserva pertence ao usuário
-                reserva = ReservaProduto.objects.filter(id=reserva_id, user=request.user).first()
+        if not reserva:
+            return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
 
-                if reserva:  # Verifica se a reserva foi encontrada
-                    produto = Produto.objects.filter(id=reserva.produto.id).first()
-                    
-                    if produto:  # Verifica se o produto foi encontrado
-                        produto.estoque += reserva.quantidade_comprada
-                        produto.save()  # Não se esqueça de salvar as alterações no estoque
-                    else:
-                        return JsonResponse({"success": False, "message": "Produto não encontrado"}, status=404)
-                else:
-                    return JsonResponse({"success": False, "message": "Reserva não encontrada"}, status=404)
-            elif tipo == "servico":
-                # Verifica se o serviço pertence ao usuário
-                reserva = ReservaServico.objects.filter(id=reserva_id, user=request.user).first()
-            else:
-                return JsonResponse({"success": False}, status=400)
+        reserva.disponivel = True
+        reserva.save()
 
-            if reserva:
-                # Apenas altera a disponibilidade, não mexe no estoque
-                reserva.disponivel = True
-                
-                reserva.save()
-                return JsonResponse({"success": True})
-            else:
-                return JsonResponse({"success": False}, status=404)
-        except Exception as e:
-            # Log the error with more information
-            print(f"Erro ao atualizar disponibilidade: {e}")
-            return JsonResponse({"success": False, "message": str(e)}, status=500)
+        return JsonResponse({"success": True})
 
     return JsonResponse({"success": False}, status=400)
 

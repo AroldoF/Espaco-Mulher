@@ -7,37 +7,40 @@
     <title>Espaço Mulher</title>
     <link rel="stylesheet" href="{% static 'style/style.css' %}" />
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-          document.querySelectorAll('.toggle-disponibilidade').forEach((checkbox) => {
-            checkbox.addEventListener('change', function () {
-              let reservaId = this.dataset.id
-              let tipo = this.dataset.tipo
-        
-              fetch("{% url 'atualizar_disponibilidade' %}", {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: `id=${reservaId}&tipo=${tipo}`
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  
-                })
-                .catch((error) => {
-                  console.error('Erro:', error)
-                  this.checked = false
-                })
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.toggle-disponibilidade').forEach((checkbox) => {
+          checkbox.addEventListener('change', function () {
+            const reservaId = this.dataset.id
+            const tipo = this.dataset.tipo
+      
+            fetch('/atualizar-disponibilidade/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+              },
+              body: `id=${reservaId}&tipo=${tipo}`
             })
+              .then((response) => response.json())
+              .then((data) => {
+                if (!data.success) {
+                  alert(data.message || 'Erro ao atualizar')
+                  this.checked = false
+                }
+              })
+              .catch(() => {
+                alert('Erro de conexão')
+                this.checked = false
+              })
           })
         })
-      </script>
+      })
+    </script>
   </head>
   <body>
     {% include 'partials/_nav.html' %}
     <main class="main__reservas">
-        <h2>Gerenciar Reservas</h2>
+      <h2>Gerenciar Reservas</h2>
       <section class="reservas__section">
         {% for reserva in reservas_produtos %}
           <div class="reserva-card">

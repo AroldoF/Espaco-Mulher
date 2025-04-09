@@ -15,16 +15,17 @@ def novo_servico(request):
     if not request.user.is_authenticated:
         messages.success(request, "Usuário não logado!")
         return redirect('login')
-    
-    #produto = get_object_or_404(Produto, id=id)
+    if not request.user.is_staff:
+        messages.error(request, "Você não tem permissão para acessar essa funcionalidade.")
+        return redirect('index')  # ou qualquer outra view mais apropriada
     if request.method == 'POST':
-        form = ServicoForm(request.POST)  # Passa o produto para o formulário
+        form = ServicoForm(request.POST, request.FILES)  # Passa o produto para o formulário
         if form.is_valid():
             form.save()  
-            messages.success(request, 'Nova Venda cadastrada!')
-            return redirect('index')
+            messages.success(request, 'Novo serviço cadastrado!')
+            return redirect('servico')
 
-    form = ServicoForm
+    form = ServicoForm()
     return render(request, 'servicos/_criar_servico.html', {'form': form})
 
 def editar_servico(request,id):
@@ -32,7 +33,7 @@ def editar_servico(request,id):
     form = ServicoForm(instance=servico)
 
     if request.method == 'POST':
-        form = ServicoForm(request.POST, instance=servico)
+        form = ServicoForm(request.POST,request.FILES, instance=servico)
         if form.is_valid():
             form.save()
             messages.success(request, 'servico editada com sucesso!')

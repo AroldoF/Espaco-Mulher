@@ -80,7 +80,7 @@ def editar_reserva_produto(request,id):
         form = ReservaProdutoForms(request.POST, instance=produto)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Empresa editada com sucesso!')
+            messages.success(request, 'Produto editado com sucesso!')
             return redirect('reservas')
     return render(request, 'reservas/_editar_reservas.html', {"form": form, 'produtos': produto})
 

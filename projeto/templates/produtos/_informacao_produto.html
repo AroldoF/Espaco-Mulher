@@ -17,10 +17,10 @@
           <div class="product-imgs">
             <div class="img-display">
               <div class="img-showcase">
-                {% if not produto.foto %}
+                {% if not produtos.foto %}
                   <img style="width: 520px; border-radius: 10px;" src="{% static 'assets/img/not-found.png' %}" alt="foto" />
                 {% else %}
-                  <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ produto.foto.url }}" alt="{{ produto.nome }}" />
+                  <img style="width: 520px; height: 520px; border-radius: 10px;" src="{{ produtos.foto.url }}" alt="{{ produto.nome }}" />
                 {% endif %}
               </div>
             </div>

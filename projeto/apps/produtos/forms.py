@@ -8,6 +8,7 @@ class ProdutoForm(forms.ModelForm):
         labels = {
             'nome': 'Nome',
             'descricao': 'Descrição',
+            'preco': 'Preço',
             'estoque': 'Estoque',
             'foto': 'Foto',
         }
